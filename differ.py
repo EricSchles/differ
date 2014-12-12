@@ -29,16 +29,36 @@ if __name__ == '__main__':
     args = parser.parse_args()
     root = args.root[0]
     files_to_check = args.files_to_check
-
+    
     files_found = dict((el,[]) for el in files_to_check)
-
+    different = []
+    total_count = 0
     for rootdir,dir,files in os.walk(root):
         for file in files:
+            filename = file
+            file = os.path.join(rootdir,file)
             if file in files_to_check:
+                total_count += 1
                 if files_found[file] == []:
-                    files_found[file].append(file)
+                    files_found[filename].append(file)
                 else:
-                    for checked in files_found[file]:
+                    for checked in files_found[filename]:
                         cur_len = file_len(file)
                         past_len = file_len(file)
+                        if cur_len != past_len:
+                            different.append([checked,file,"different"])
+                            continue
+                        else:
+                            if diff(checked,file) == "different":
+                                different.append([checked,file,"different"])
+                    files_found[filename].append(file)
                     
+
+
+    for elem in different:
+        print "For "+elem[0]+" and "+elem[1]+" the files are different"
+    
+    print "There were ",len(different),"files"
+    print "There were ",total_count,"files"
+    print "The ratio of changed to unchanged files was:"+len(different)/float(total_count
+        
