@@ -60,5 +60,5 @@ if __name__ == '__main__':
     
     print "There were ",len(different),"files"
     print "There were ",total_count,"files"
-    print "The ratio of changed to unchanged files was:"+len(different)/float(total_count
+    print "The ratio of changed to unchanged files was:"+len(different)/float(total_count)
         
